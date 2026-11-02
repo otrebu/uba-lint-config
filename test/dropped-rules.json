@@ -1,0 +1,792 @@
+{
+  "@tanstack/query/no-void-query-fn": {
+    "oxlint": "@tanstack/query/no-void-query-fn",
+    "reason": "It needs type information, which oxlint JS plugins do not get, so it cannot run under oxlint.",
+    "replacement": "none (TanStack Query v5 rejects undefined query data at runtime, so tests catch it)"
+  },
+  "@typescript-eslint/explicit-module-boundary-types": {
+    "oxlint": "typescript/explicit-module-boundary-types",
+    "reason": "TypeScript infers the types at module boundaries, and required annotations add churn without catching bugs.",
+    "replacement": null
+  },
+  "@typescript-eslint/init-declarations": {
+    "oxlint": "init-declarations",
+    "reason": "Style only. tsc in strict mode reports use before assignment, and the rule forces placeholder values in patterns such as beforeAll setup and Promise executors.",
+    "replacement": null
+  },
+  "@typescript-eslint/naming-convention": {
+    "oxlint": "typescript/naming-convention",
+    "reason": "Not in oxlint. Its boolean-prefix check needs type information, which oxlint JS plugins do not get, and many names it flags are fixed by external APIs or specs.",
+    "replacement": null
+  },
+  "@typescript-eslint/no-invalid-this": {
+    "oxlint": "typescript/no-invalid-this",
+    "reason": "strict enables noImplicitThis, and uba/no-class keeps `this` rare.",
+    "replacement": "tsc noImplicitThis (on via strict)"
+  },
+  "@typescript-eslint/no-redeclare": {
+    "oxlint": "no-redeclare",
+    "reason": "tsc already reports redeclarations, and the rule flags valid declaration merging, such as an interface and a const with the same name.",
+    "replacement": null
+  },
+  "@typescript-eslint/no-var-requires": {
+    "oxlint": "typescript/no-var-requires",
+    "reason": "Deprecated in typescript-eslint v8; no-require-imports covers the same cases.",
+    "replacement": null
+  },
+  "@typescript-eslint/require-await": {
+    "oxlint": "typescript/require-await",
+    "reason": "It conflicts with promise-function-async on async stubs that must return a promise; no-floating-promises and await-thenable catch the real bugs.",
+    "replacement": null
+  },
+  "@typescript-eslint/typedef": {
+    "oxlint": "typescript/typedef",
+    "reason": "Deprecated, and with no options every check defaults off, so it does nothing.",
+    "replacement": null
+  },
+  "block-scoped-var": {
+    "oxlint": "block-scoped-var",
+    "reason": "Only matters for var; no-var is on and let/const are block-scoped, so it can never fire.",
+    "replacement": null
+  },
+  "canonical/prefer-import-alias": {
+    "oxlint": "canonical/prefer-import-alias",
+    "reason": "It matches paths against the folder the linter runs in (process.cwd()), so at a monorepo root a pattern such as ^src/ never matches without an override per package, and it skips export … from. A native no-restricted-imports pattern such as ^(\\.\\./){2,} does the check instead, without an autofix (see the README, Import alias).",
+    "replacement": "native no-restricted-imports pattern in the project's config"
+  },
+  "chai-friendly/no-unused-expressions": {
+    "oxlint": "chai-friendly/no-unused-expressions",
+    "reason": "Only needed for chai-style assertions such as expect(x).to.be.true. Its allow list can also hide an assertion with no matcher, which the native no-unused-expressions catches.",
+    "replacement": "no-unused-expressions (native, on for TypeScript files)"
+  },
+  "cypress/assertion-before-screenshot": {
+    "oxlint": "cypress/assertion-before-screenshot",
+    "reason": "Not on: the Cypress option only loads the plugin, env and globals. A project that runs Cypress can turn the rule on in an override.",
+    "replacement": null
+  },
+  "cypress/no-assigning-return-values": {
+    "oxlint": "cypress/no-assigning-return-values",
+    "reason": "Not on: the Cypress option only loads the plugin, env and globals. A project that runs Cypress can turn the rule on in an override.",
+    "replacement": null
+  },
+  "cypress/no-async-tests": {
+    "oxlint": "cypress/no-async-tests",
+    "reason": "Not on: the Cypress option only loads the plugin, env and globals. A project that runs Cypress can turn the rule on in an override.",
+    "replacement": null
+  },
+  "cypress/no-force": {
+    "oxlint": "cypress/no-force",
+    "reason": "Not on: the Cypress option only loads the plugin, env and globals. A project that runs Cypress can turn the rule on in an override.",
+    "replacement": null
+  },
+  "cypress/no-pause": {
+    "oxlint": "cypress/no-pause",
+    "reason": "Not on: the Cypress option only loads the plugin, env and globals. A project that runs Cypress can turn the rule on in an override. For Playwright, page.pause() is the equivalent.",
+    "replacement": "for Playwright: no-restricted-properties on page.pause in e2e files"
+  },
+  "cypress/no-unnecessary-waiting": {
+    "oxlint": "cypress/no-unnecessary-waiting",
+    "reason": "Not on: the Cypress option only loads the plugin, env and globals. A project that runs Cypress can turn the rule on in an override. For Playwright, page.waitForTimeout() is the same source of flaky tests.",
+    "replacement": "for Playwright: no-restricted-properties on page.waitForTimeout in e2e files"
+  },
+  "default-case": {
+    "oxlint": "default-case",
+    "reason": "Forced defaults over TS unions become catch-alls that silently absorb new members; exhaustiveness checking is the typed replacement.",
+    "replacement": null
+  },
+  "func-name-matching": {
+    "oxlint": "func-name-matching",
+    "reason": "func-style declaration plus object-shorthand leave almost no named function expressions to check.",
+    "replacement": null
+  },
+  "func-names": {
+    "oxlint": "func-names",
+    "reason": "func-style and prefer-arrow-callback already remove anonymous function expressions; nothing is left to name.",
+    "replacement": null
+  },
+  "function-name/starts-with-verb": {
+    "oxlint": "function-name/starts-with-verb",
+    "reason": "Its fixed verb list misses common verbs such as mock and upsert, so it flags names that are clear. The convention is now a line in the AGENTS.md this package ships.",
+    "replacement": "AGENTS.md convention"
+  },
+  "import/default": {
+    "oxlint": "import/default",
+    "reason": "In TypeScript files, tsc reports a default import of a module without a default export (TS1192).",
+    "replacement": null
+  },
+  "import/export": {
+    "oxlint": "import/export",
+    "reason": "tsc already reports duplicate and conflicting re-exports (TS2300/TS2308); oxlint's version is nursery.",
+    "replacement": null
+  },
+  "import/exports-last": {
+    "oxlint": "import/exports-last",
+    "reason": "Layout preference with no autofix and no bug value; it only triggers lint-fix loops when agents export inline.",
+    "replacement": null
+  },
+  "import/extensions": {
+    "oxlint": "import/extensions",
+    "reason": "tsc already checks TypeScript specifiers and .js specifiers are ignored; what is left are CSS and asset imports, which must keep their extension.",
+    "replacement": null
+  },
+  "import/named": {
+    "oxlint": "import/named",
+    "reason": "tsc reports missing named exports (TS2305/TS2614); oxlint's version is nursery.",
+    "replacement": null
+  },
+  "import/namespace": {
+    "oxlint": "import/namespace",
+    "reason": "tsc reports a missing member on a namespace import (TS2339/TS2694).",
+    "replacement": null
+  },
+  "import/no-dynamic-require": {
+    "oxlint": "import/no-dynamic-require",
+    "reason": "Only applies to require(); in TypeScript files typescript/no-require-imports already bans require() calls.",
+    "replacement": null
+  },
+  "import/no-unresolved": {
+    "oxlint": "import/no-unresolved",
+    "reason": "Typecheck already fails on unresolvable modules; oxlint deliberately does not implement it because of false positives.",
+    "replacement": "tsc (TS2307)"
+  },
+  "import/no-unused-modules": {
+    "oxlint": "import/no-unused-modules",
+    "reason": "Without unusedExports or missingExports it checks nothing; if dead exports matter, knip checks them across the project.",
+    "replacement": "knip (if dead exports/files are wanted)"
+  },
+  "import/no-useless-path-segments": {
+    "oxlint": "import/no-useless-path-segments",
+    "reason": "Cosmetic path cleanup with no bug value; nothing in oxlint or oxfmt replaces it, and nothing is lost.",
+    "replacement": null
+  },
+  "import/prefer-default-export": {
+    "oxlint": "import/prefer-default-export",
+    "reason": "It conflicts with named exports, the common pattern in TypeScript code, so it mostly produces disable comments.",
+    "replacement": null
+  },
+  "init-declarations": {
+    "oxlint": "init-declarations",
+    "reason": "TS strict definite-assignment checks (TS2454) catch use before assignment; the rule only forces needless initialisers.",
+    "replacement": null
+  },
+  "max-nested-callbacks": {
+    "oxlint": "max-nested-callbacks",
+    "reason": "The default limit of 10 nested callbacks is almost never reached; complexity and max-depth cover the real nesting risk.",
+    "replacement": null
+  },
+  "no-await-in-loop": {
+    "oxlint": "no-await-in-loop",
+    "reason": "Sequential awaits in a loop are often deliberate: steps that must run in order, retries and backpressure. The rule cannot tell them from accidental serial work, so it mostly produces disable comments.",
+    "replacement": null
+  },
+  "no-bitwise": {
+    "oxlint": "no-bitwise",
+    "reason": "TS2447 already rejects | and & on booleans; the remaining uses, such as hashes and bit masks, are deliberate.",
+    "replacement": null
+  },
+  "no-caller": {
+    "oxlint": "no-caller",
+    "reason": "arguments.callee is a legacy pattern that throws in strict ES modules; agents do not write it.",
+    "replacement": null
+  },
+  "no-const-assign": {
+    "oxlint": "no-const-assign",
+    "reason": "tsc reports TS2588 on const reassignment; the lint copy only adds untyped JS files.",
+    "replacement": null
+  },
+  "no-continue": {
+    "oxlint": "no-continue",
+    "reason": "continue is often the clearest loop guard, and the rule catches no bugs.",
+    "replacement": null
+  },
+  "no-delete-var": {
+    "oxlint": "no-delete-var",
+    "reason": "delete on an identifier is a strict-mode SyntaxError and tsc TS1102; ES modules make the rule unreachable.",
+    "replacement": null
+  },
+  "no-div-regex": {
+    "oxlint": "no-div-regex",
+    "reason": "Purely cosmetic /=.../ ambiguity check; it guards no behaviour.",
+    "replacement": null
+  },
+  "no-dupe-args": {
+    "oxlint": "no-dupe-args",
+    "reason": "Not in oxlint; duplicate parameters are a strict-mode SyntaxError and tsc reports TS2300.",
+    "replacement": "tsc strict (TS2300 duplicate identifier; strict-mode SyntaxError)"
+  },
+  "no-dupe-keys": {
+    "oxlint": "no-dupe-keys",
+    "reason": "tsc reports TS1117 for duplicate object-literal keys; the lint copy only adds untyped JS files.",
+    "replacement": null
+  },
+  "no-eq-null": {
+    "oxlint": "no-eq-null",
+    "reason": "eqeqeq 'always' already flags == null, so this rule duplicates it.",
+    "replacement": null
+  },
+  "no-extra-bind": {
+    "oxlint": "no-extra-bind",
+    "reason": "Only flags .bind() on function literals that ignore this; with func-style declarations and arrow callbacks such code is rare.",
+    "replacement": null
+  },
+  "no-extra-label": {
+    "oxlint": "no-extra-label",
+    "reason": "no-labels already bans every label, so a redundant label cannot exist.",
+    "replacement": null
+  },
+  "no-extra-semi": {
+    "oxlint": "no-extra-semi",
+    "reason": "Deprecated stylistic rule; oxfmt removes stray semicolons, and oxlint does not implement it.",
+    "replacement": "oxfmt (formatter removes extra semicolons)"
+  },
+  "no-func-assign": {
+    "oxlint": "no-func-assign",
+    "reason": "tsc reports TS2630 when a function declaration is reassigned.",
+    "replacement": null
+  },
+  "no-implicit-globals": {
+    "oxlint": "no-implicit-globals",
+    "reason": "It only applies to script code; ES modules and CommonJS modules have their own scope, so it never fires there.",
+    "replacement": null
+  },
+  "no-implied-eval": {
+    "oxlint": "no-implied-eval",
+    "reason": "For TypeScript files the type-aware typescript/no-implied-eval runs instead; the core rule would only add JS files.",
+    "replacement": null
+  },
+  "no-import-assign": {
+    "oxlint": "no-import-assign",
+    "reason": "tsc reports TS2632/TS2540 on assigning to imports.",
+    "replacement": null
+  },
+  "no-inline-comments": {
+    "oxlint": "no-inline-comments",
+    "reason": "Trailing comments carry no bug risk; agents write them naturally, so the rule only adds rewrite loops.",
+    "replacement": null
+  },
+  "no-inner-declarations": {
+    "oxlint": "no-inner-declarations",
+    "reason": "Block-level functions are legal in strict ES modules and var is banned; oxlint's default also flags valid code that ESLint 9 allows.",
+    "replacement": null
+  },
+  "no-invalid-this": {
+    "oxlint": "no-invalid-this",
+    "reason": "Not in oxlint; strict noImplicitThis reports untyped this (TS2683).",
+    "replacement": "TypeScript noImplicitThis (enabled by strict)"
+  },
+  "no-iterator": {
+    "oxlint": "no-iterator",
+    "reason": "__iterator__ is an obsolete SpiderMonkey property; TS rejects it as unknown on typed objects.",
+    "replacement": null
+  },
+  "no-label-var": {
+    "oxlint": "no-label-var",
+    "reason": "no-labels bans all labels, so a label sharing a variable name cannot exist.",
+    "replacement": null
+  },
+  "no-loop-func": {
+    "oxlint": "no-loop-func",
+    "reason": "With let, const and no-var, a closure in a loop gets a fresh binding per iteration, so the bug it guards against cannot occur.",
+    "replacement": null
+  },
+  "no-negated-condition": {
+    "oxlint": "no-negated-condition",
+    "reason": "Duplicate of unicorn/no-negated-condition, also on with the same check and autofix; running both doubles every report.",
+    "replacement": null
+  },
+  "no-octal": {
+    "oxlint": "no-octal",
+    "reason": "Legacy octal literals are already errors in strict-mode ES modules and tsc; oxlint deliberately does not implement it.",
+    "replacement": "tsc (TS1121) and ESM strict mode"
+  },
+  "no-octal-escape": {
+    "oxlint": "no-octal-escape",
+    "reason": "Octal escape sequences are already errors in strict-mode modules and tsc; oxlint deliberately does not implement it.",
+    "replacement": "tsc (TS1487) and ESM strict mode"
+  },
+  "no-plusplus": {
+    "oxlint": "no-plusplus",
+    "reason": "Agents default to i++, so it forces manual rewrites to += 1 with no bug class once the formatter owns semicolons.",
+    "replacement": null
+  },
+  "no-redeclare": {
+    "oxlint": "no-redeclare",
+    "reason": "tsc reports redeclarations (TS2451/TS2300) and no-var is on; oxlint lacks ignoreDeclarationMerge and flags legitimate interface+const merging.",
+    "replacement": null
+  },
+  "no-restricted-exports": {
+    "oxlint": "no-restricted-exports",
+    "reason": "Without options it restricts nothing, and this package has no export to restrict; it is also nursery in oxlint. Turn it on with options in your config if you need it.",
+    "replacement": null
+  },
+  "no-restricted-globals": {
+    "oxlint": "no-restricted-globals",
+    "reason": "Without options it restricts nothing, and this package has no global to restrict. Turn it on with options in your config if you need it.",
+    "replacement": null
+  },
+  "no-restricted-properties": {
+    "oxlint": "no-restricted-properties",
+    "reason": "Without options it restricts nothing, and this package has no property to restrict. Turn it on with options in your config if you need it.",
+    "replacement": null
+  },
+  "no-undef": {
+    "oxlint": "no-undef",
+    "reason": "tsc reports undefined names (TS2304) in every TypeScript file; oxlint's version is nursery.",
+    "replacement": null
+  },
+  "no-undef-init": {
+    "oxlint": "no-undef-init",
+    "reason": "unicorn/no-useless-undefined, on in this config, flags let x = undefined; oxlint does not implement the core rule.",
+    "replacement": "unicorn/no-useless-undefined"
+  },
+  "perfectionist/sort-array-includes": {
+    "oxlint": "perfectionist/sort-array-includes",
+    "reason": "Dropped with the rest of perfectionist: a sort order has no correctness value, and every JS-plugin rule adds run time. oxfmt cannot do it (it sorts only imports, package.json and Tailwind classes).",
+    "replacement": null
+  },
+  "perfectionist/sort-classes": {
+    "oxlint": "perfectionist/sort-classes",
+    "reason": "uba/no-class already keeps classes rare, and a sort order has no correctness value.",
+    "replacement": null
+  },
+  "perfectionist/sort-decorators": {
+    "oxlint": "perfectionist/sort-decorators",
+    "reason": "Decorator order can change behaviour, so an autofix that reorders decorators is risky.",
+    "replacement": null
+  },
+  "perfectionist/sort-enums": {
+    "oxlint": "perfectionist/sort-enums",
+    "reason": "Sorting enum members has no correctness value, and member order matters for numeric enums.",
+    "replacement": null
+  },
+  "perfectionist/sort-export-attributes": {
+    "oxlint": "perfectionist/sort-export-attributes",
+    "reason": "Export attributes are rare and usually have one key, so there is nothing to sort.",
+    "replacement": null
+  },
+  "perfectionist/sort-exports": {
+    "oxlint": "perfectionist/sort-exports",
+    "reason": "Dropped with the rest of perfectionist: a sort order has no correctness value, and every JS-plugin rule adds run time. oxfmt cannot do it (it sorts only imports, package.json and Tailwind classes).",
+    "replacement": null
+  },
+  "perfectionist/sort-heritage-clauses": {
+    "oxlint": "perfectionist/sort-heritage-clauses",
+    "reason": "uba/no-class keeps classes rare, so implements lists with several interfaces are rare too.",
+    "replacement": null
+  },
+  "perfectionist/sort-import-attributes": {
+    "oxlint": "perfectionist/sort-import-attributes",
+    "reason": "Import attributes are rare and usually have one key, so there is nothing to sort.",
+    "replacement": null
+  },
+  "perfectionist/sort-imports": {
+    "oxlint": "perfectionist/sort-imports",
+    "reason": "oxfmt sortImports, set up with perfectionist's default groups, orders import declarations on every format run.",
+    "replacement": "oxfmt sortImports"
+  },
+  "perfectionist/sort-interfaces": {
+    "oxlint": "perfectionist/sort-interfaces",
+    "reason": "Dropped with the rest of perfectionist: a sort order has no correctness value, and every JS-plugin rule adds run time. oxfmt cannot do it (it sorts only imports, package.json and Tailwind classes).",
+    "replacement": null
+  },
+  "perfectionist/sort-intersection-types": {
+    "oxlint": "perfectionist/sort-intersection-types",
+    "reason": "Dropped with the rest of perfectionist: a sort order has no correctness value, and every JS-plugin rule adds run time. oxfmt cannot do it (it sorts only imports, package.json and Tailwind classes).",
+    "replacement": null
+  },
+  "perfectionist/sort-jsx-props": {
+    "oxlint": "perfectionist/sort-jsx-props",
+    "reason": "Dropped with the rest of perfectionist: a sort order has no correctness value, and every JS-plugin rule adds run time. oxfmt cannot do it (it sorts only imports, package.json and Tailwind classes).",
+    "replacement": null
+  },
+  "perfectionist/sort-maps": {
+    "oxlint": "perfectionist/sort-maps",
+    "reason": "Dropped with the rest of perfectionist: a sort order has no correctness value, and every JS-plugin rule adds run time. oxfmt cannot do it (it sorts only imports, package.json and Tailwind classes).",
+    "replacement": null
+  },
+  "perfectionist/sort-modules": {
+    "oxlint": "perfectionist/sort-modules",
+    "reason": "Alphabetical order fights top-down reading order, such as lifecycle order or a helper kept next to its caller.",
+    "replacement": null
+  },
+  "perfectionist/sort-named-exports": {
+    "oxlint": "perfectionist/sort-named-exports",
+    "reason": "Dropped with the rest of perfectionist: a sort order has no correctness value, and every JS-plugin rule adds run time. oxfmt cannot do it (it sorts only imports, package.json and Tailwind classes).",
+    "replacement": null
+  },
+  "perfectionist/sort-object-types": {
+    "oxlint": "perfectionist/sort-object-types",
+    "reason": "Dropped with the rest of perfectionist: a sort order has no correctness value, and every JS-plugin rule adds run time. oxfmt cannot do it (it sorts only imports, package.json and Tailwind classes).",
+    "replacement": null
+  },
+  "perfectionist/sort-objects": {
+    "oxlint": "perfectionist/sort-objects",
+    "reason": "Its autofix reorders literals where key order matters, such as objects whose key order is the output order, and TanStack Router route options, whose order @tanstack/router/create-route-property-order checks.",
+    "replacement": "none (native sort-keys has the same hazard)"
+  },
+  "perfectionist/sort-sets": {
+    "oxlint": "perfectionist/sort-sets",
+    "reason": "Dropped with the rest of perfectionist: a sort order has no correctness value, and every JS-plugin rule adds run time. oxfmt cannot do it (it sorts only imports, package.json and Tailwind classes).",
+    "replacement": null
+  },
+  "perfectionist/sort-switch-case": {
+    "oxlint": "perfectionist/sort-switch-case",
+    "reason": "Dropped with the rest of perfectionist: a sort order has no correctness value, and every JS-plugin rule adds run time. oxfmt cannot do it (it sorts only imports, package.json and Tailwind classes).",
+    "replacement": null
+  },
+  "perfectionist/sort-union-types": {
+    "oxlint": "perfectionist/sort-union-types",
+    "reason": "Dropped with the rest of perfectionist: a sort order has no correctness value, and every JS-plugin rule adds run time. oxfmt cannot do it (it sorts only imports, package.json and Tailwind classes).",
+    "replacement": null
+  },
+  "perfectionist/sort-variable-declarations": {
+    "oxlint": "perfectionist/sort-variable-declarations",
+    "reason": "Statements with several declarators are rare in modern TypeScript, so there is nothing to sort.",
+    "replacement": "none (native sort-vars exists if ever wanted)"
+  },
+  "promise/always-return": {
+    "oxlint": "promise/always-return",
+    "reason": "In async/await code then callbacks are rare; demanding a return in each adds noise, and typescript/no-floating-promises catches floating chains.",
+    "replacement": null
+  },
+  "promise/avoid-new": {
+    "oxlint": "promise/avoid-new",
+    "reason": "new Promise is the right tool to wrap a callback API or build a deadline, so the rule mostly produces disable comments.",
+    "replacement": null
+  },
+  "promise/catch-or-return": {
+    "oxlint": "promise/catch-or-return",
+    "reason": "typescript/no-floating-promises (type-aware, on in this config) catches unhandled promises more precisely, including async calls without .then.",
+    "replacement": null
+  },
+  "promise/no-nesting": {
+    "oxlint": "promise/no-nesting",
+    "reason": "Style rule about nested then chains; async/await code has no chains to nest.",
+    "replacement": null
+  },
+  "promise/no-new-statics": {
+    "oxlint": "promise/no-new-statics",
+    "reason": "`new Promise.resolve()` is already a tsc error under strict (no construct signature), so the rule never fires.",
+    "replacement": null
+  },
+  "promise/no-promise-in-callback": {
+    "oxlint": "promise/no-promise-in-callback",
+    "reason": "Mixing styles is not itself a bug; the real hazard, an unhandled promise inside a callback, is caught by no-floating-promises/no-misused-promises.",
+    "replacement": null
+  },
+  "promise/no-return-wrap": {
+    "oxlint": "promise/no-return-wrap",
+    "reason": "Only checks Promise.resolve/reject wrapping inside then/catch callbacks, which async/await code rarely has.",
+    "replacement": null
+  },
+  "promise/prefer-await-to-callbacks": {
+    "oxlint": "promise/prefer-await-to-callbacks",
+    "reason": "It fires on APIs that only offer callbacks, such as server.close() in node:http, stream events and zlib, where each report becomes a justified disable comment.",
+    "replacement": null
+  },
+  "promise/prefer-await-to-then": {
+    "oxlint": "promise/prefer-await-to-then",
+    "reason": "Without type information it cannot tell Promise.prototype.catch() from other .catch() methods, such as zod's schema.catch(); no-floating-promises covers correctness.",
+    "replacement": null
+  },
+  "promise/valid-params": {
+    "oxlint": "promise/valid-params",
+    "reason": "tsc already rejects wrong argument counts to Promise.all/resolve/then (TS2554).",
+    "replacement": null
+  },
+  "react/boolean-prop-naming": {
+    "oxlint": "react/boolean-prop-naming",
+    "reason": "UI libraries fix boolean prop names such as open and active, so it mostly produces disable comments; typescript/naming-convention is gone too.",
+    "replacement": null
+  },
+  "react/destructuring-assignment": {
+    "oxlint": "react/destructuring-assignment",
+    "reason": "Pure style; destructuring props in the signature is already the common pattern, and agents copy it.",
+    "replacement": null
+  },
+  "react/function-component-definition": {
+    "oxlint": "react/function-component-definition",
+    "reason": "func-style declaration with allowArrowFunctions: false already rejects named arrow components.",
+    "replacement": null
+  },
+  "react/jsx-filename-extension": {
+    "oxlint": "react/jsx-filename-extension",
+    "reason": "tsc already rejects JSX in .ts files, and TypeScript projects rarely have JSX in .js files.",
+    "replacement": null
+  },
+  "react/jsx-handler-names": {
+    "oxlint": "react/jsx-handler-names",
+    "reason": "Default checkLocalVariables:false only inspects props.x/this.x handlers; components that destructure props are never checked.",
+    "replacement": null
+  },
+  "react/jsx-no-duplicate-props": {
+    "oxlint": "react/jsx-no-duplicate-props",
+    "reason": "tsc reports duplicate JSX attributes (TS17001) in every .tsx file; the lint rule only repeats it.",
+    "replacement": null
+  },
+  "react/jsx-no-undef": {
+    "oxlint": "react/jsx-no-undef",
+    "reason": "tsc reports undefined JSX identifiers (TS2304) under strict; the lint rule duplicates it.",
+    "replacement": null
+  },
+  "react/jsx-pascal-case": {
+    "oxlint": "react/jsx-pascal-case",
+    "reason": "Components are PascalCase by convention, and tsc rejects a lowercase tag that is not an intrinsic element.",
+    "replacement": null
+  },
+  "react/jsx-uses-react": {
+    "oxlint": "react/jsx-uses-react",
+    "reason": "The new JSX transform needs no React import; the rule does nothing on React 19.",
+    "replacement": null
+  },
+  "react/jsx-uses-vars": {
+    "oxlint": "react/jsx-uses-vars",
+    "reason": "oxlint no-unused-vars already counts JSX usage, so this ESLint marker rule is unnecessary.",
+    "replacement": "eslint/no-unused-vars (oxlint, JSX-aware)"
+  },
+  "react/no-adjacent-inline-elements": {
+    "oxlint": "react/no-adjacent-inline-elements",
+    "reason": "Stylistic whitespace rule oxlint declines to port; it has no bug value.",
+    "replacement": null
+  },
+  "react/no-deprecated": {
+    "oxlint": "react/no-deprecated",
+    "reason": "React 19 types removed render/findDOMNode, so tsc fails them; typescript/no-deprecated covers the remaining @deprecated APIs.",
+    "replacement": "typescript/no-deprecated (type-aware, on in this config)"
+  },
+  "react/no-did-mount-set-state": {
+    "oxlint": "react/no-did-mount-set-state",
+    "reason": "Class-lifecycle rule; function components have no componentDidMount, and uba/no-class keeps classes rare.",
+    "replacement": null
+  },
+  "react/no-did-update-set-state": {
+    "oxlint": "react/no-did-update-set-state",
+    "reason": "Class-lifecycle rule; function components have no componentDidUpdate, and uba/no-class keeps classes rare.",
+    "replacement": null
+  },
+  "react/no-direct-mutation-state": {
+    "oxlint": "react/no-direct-mutation-state",
+    "reason": "Class-only; Readonly<S> state already blocks field mutation in tsc.",
+    "replacement": null
+  },
+  "react/no-find-dom-node": {
+    "oxlint": "react/no-find-dom-node",
+    "reason": "React 19 removed findDOMNode and @types/react-dom 19 no longer declares it, so tsc fails any use.",
+    "replacement": null
+  },
+  "react/no-invalid-html-attribute": {
+    "oxlint": "react/no-invalid-html-attribute",
+    "reason": "It only validates rel values, and oxlint has no port.",
+    "replacement": null
+  },
+  "react/no-is-mounted": {
+    "oxlint": "react/no-is-mounted",
+    "reason": "isMounted exists only on the deprecated ClassicComponent type, so this.isMounted() in a Component subclass fails tsc.",
+    "replacement": null
+  },
+  "react/no-namespace": {
+    "oxlint": "react/no-namespace",
+    "reason": "Namespaced tags like <svg:rect> are not supported by React and are rarely written.",
+    "replacement": null
+  },
+  "react/no-redundant-should-component-update": {
+    "oxlint": "react/no-redundant-should-component-update",
+    "reason": "PureComponent-only rule; function components have no shouldComponentUpdate.",
+    "replacement": null
+  },
+  "react/no-render-return-value": {
+    "oxlint": "react/no-render-return-value",
+    "reason": "ReactDOM.render is gone from React 19 types, so tsc fails before any return value exists.",
+    "replacement": null
+  },
+  "react/no-string-refs": {
+    "oxlint": "react/no-string-refs",
+    "reason": "React 19 types define LegacyRef as Ref without strings, so string refs fail tsc.",
+    "replacement": null
+  },
+  "react/no-this-in-sfc": {
+    "oxlint": "react/no-this-in-sfc",
+    "reason": "strict noImplicitThis makes `this` inside a function component a tsc error.",
+    "replacement": null
+  },
+  "react/no-typos": {
+    "oxlint": "react/no-typos",
+    "reason": "Checks PropTypes and class lifecycle spellings; TypeScript projects have no PropTypes, and the override keyword lets tsc check class method names.",
+    "replacement": null
+  },
+  "react/no-unescaped-entities": {
+    "oxlint": "react/no-unescaped-entities",
+    "reason": "tsc already rejects > and } in JSX text; the remaining quote checks only force &apos; churn in copy.",
+    "replacement": null
+  },
+  "react/no-unsafe": {
+    "oxlint": "react/no-unsafe",
+    "reason": "Flags UNSAFE_ class lifecycles; function components have none, and uba/no-class keeps classes rare.",
+    "replacement": null
+  },
+  "react/no-unused-class-component-methods": {
+    "oxlint": "react/no-unused-class-component-methods",
+    "reason": "Class-component rule that oxlint declines to port; uba/no-class keeps classes rare.",
+    "replacement": null
+  },
+  "react/no-unused-prop-types": {
+    "oxlint": "react/no-unused-prop-types",
+    "reason": "oxlint does not implement it. no-unused-vars does not see members of a props type that are never destructured, so dead props can stay behind after a refactor.",
+    "replacement": "none (eslint/no-unused-vars covers destructured props)"
+  },
+  "react/no-unused-state": {
+    "oxlint": "react/no-unused-state",
+    "reason": "Class-state rule that oxlint declines to port; function components keep state in hooks.",
+    "replacement": null
+  },
+  "react/no-will-update-set-state": {
+    "oxlint": "react/no-will-update-set-state",
+    "reason": "Class-lifecycle rule; function components have no componentWillUpdate.",
+    "replacement": null
+  },
+  "react/prop-types": {
+    "oxlint": "react/prop-types",
+    "reason": "TypeScript props types replace PropTypes, which React 19 ignores entirely.",
+    "replacement": "tsc (typed props)"
+  },
+  "react/sort-prop-types": {
+    "oxlint": "react/sort-prop-types",
+    "reason": "PropTypes-only; TypeScript projects use typed props.",
+    "replacement": null
+  },
+  "require-atomic-updates": {
+    "oxlint": "require-atomic-updates",
+    "reason": "oxlint does not implement it, and it has known false positives on code that holds a lock, releases in finally, or runs in sequence.",
+    "replacement": null
+  },
+  "storybook/await-interactions": {
+    "oxlint": "storybook/await-interactions",
+    "reason": "Storybook rules are opt-in (shouldEnableStorybook). Without them, the type-aware no-floating-promises still flags userEvent calls that are not awaited.",
+    "replacement": "typescript/no-floating-promises (native, on)"
+  },
+  "storybook/context-in-play-function": {
+    "oxlint": "storybook/context-in-play-function",
+    "reason": "Storybook rules are opt-in (shouldEnableStorybook). The rule only applies to play functions.",
+    "replacement": null
+  },
+  "storybook/default-exports": {
+    "oxlint": "storybook/default-exports",
+    "reason": "Storybook rules are opt-in (shouldEnableStorybook). Storybook's CSF indexer already rejects a story file without a default export.",
+    "replacement": "storybook build in CI"
+  },
+  "storybook/hierarchy-separator": {
+    "oxlint": "storybook/hierarchy-separator",
+    "reason": "Storybook rules are opt-in (shouldEnableStorybook). It guards against the old '|' title separator; current titles use '/'.",
+    "replacement": null
+  },
+  "storybook/no-redundant-story-name": {
+    "oxlint": "storybook/no-redundant-story-name",
+    "reason": "Storybook rules are opt-in (shouldEnableStorybook). It is a cosmetic warning about a name Storybook would derive anyway.",
+    "replacement": null
+  },
+  "storybook/no-renderer-packages": {
+    "oxlint": "storybook/no-renderer-packages",
+    "reason": "Off even with shouldEnableStorybook so projects can choose their imports. Turn it on in an override to require imports from the framework package (for example @storybook/react-vite) instead of the renderer package.",
+    "replacement": null
+  },
+  "storybook/no-uninstalled-addons": {
+    "oxlint": "storybook/no-uninstalled-addons",
+    "reason": "Storybook rules are opt-in (shouldEnableStorybook). Storybook fails to start when an addon is missing.",
+    "replacement": "storybook build in CI"
+  },
+  "storybook/prefer-pascal-case": {
+    "oxlint": "storybook/prefer-pascal-case",
+    "reason": "Storybook rules are opt-in (shouldEnableStorybook). Agents already name CSF story exports in PascalCase (Default) without being told.",
+    "replacement": null
+  },
+  "storybook/story-exports": {
+    "oxlint": "storybook/story-exports",
+    "reason": "Storybook rules are opt-in (shouldEnableStorybook). A story file with no stories fails Storybook indexing.",
+    "replacement": "storybook build in CI"
+  },
+  "storybook/use-storybook-expect": {
+    "oxlint": "storybook/use-storybook-expect",
+    "reason": "Storybook rules are opt-in (shouldEnableStorybook). The rule only applies inside play functions.",
+    "replacement": null
+  },
+  "storybook/use-storybook-testing-library": {
+    "oxlint": "storybook/use-storybook-testing-library",
+    "reason": "Storybook rules are opt-in (shouldEnableStorybook). The rule only applies to @testing-library imports in play functions.",
+    "replacement": null
+  },
+  "unicorn/consistent-destructuring": {
+    "oxlint": "unicorn/consistent-destructuring",
+    "reason": "Not implemented in oxlint; pure style with known false positives, not worth a JS plugin.",
+    "replacement": null
+  },
+  "unicorn/no-for-loop": {
+    "oxlint": "unicorn/no-for-loop",
+    "reason": "oxlint does not port it; typescript/prefer-for-of, on in this config, covers the same index loops.",
+    "replacement": "typescript/prefer-for-of"
+  },
+  "unicorn/no-nested-ternary": {
+    "oxlint": "unicorn/no-nested-ternary",
+    "reason": "no-nested-ternary, also on in this config, forbids all nesting, so this looser unicorn copy adds nothing.",
+    "replacement": null
+  },
+  "unicorn/number-literal-case": {
+    "oxlint": "unicorn/number-literal-case",
+    "reason": "It conflicts with the Prettier-compatible formatter on the case of hex digits.",
+    "replacement": null
+  },
+  "unicorn/prefer-event-target": {
+    "oxlint": "unicorn/prefer-event-target",
+    "reason": "Browser-portability rule; in Node code, a subclass of EventEmitter is correct, so the rule only produces disable comments there.",
+    "replacement": null
+  },
+  "unicorn/prefer-json-parse-buffer": {
+    "oxlint": "unicorn/prefer-json-parse-buffer",
+    "reason": "Deprecated and unsupported in oxlint; TypeScript rejects JSON.parse(buffer) anyway.",
+    "replacement": null
+  },
+  "unicorn/prefer-query-selector": {
+    "oxlint": "unicorn/prefer-query-selector",
+    "reason": "getElementById is safer for dynamic IDs; querySelector needs CSS.escape for them.",
+    "replacement": null
+  },
+  "unicorn/prefer-reflect-apply": {
+    "oxlint": "unicorn/prefer-reflect-apply",
+    "reason": "eslint/prefer-spread already flags fn.apply(null, args) and points to the better spread fix.",
+    "replacement": null
+  },
+  "unicorn/prefer-switch": {
+    "oxlint": "unicorn/prefer-switch",
+    "reason": "Not implemented in oxlint; if/else-to-switch is taste and not worth a JS plugin.",
+    "replacement": null
+  },
+  "unicorn/prefer-ternary": {
+    "oxlint": "unicorn/prefer-ternary",
+    "reason": "Lost its autofix in oxlint; forcing if/else into ternaries is taste with no bug value.",
+    "replacement": null
+  },
+  "unicorn/prefer-top-level-await": {
+    "oxlint": "unicorn/prefer-top-level-await",
+    "reason": "Without type information it reads other .catch() methods, such as zod's schema.catch(), as promise chains; no-floating-promises covers the real cases.",
+    "replacement": null
+  },
+  "unicorn/prevent-abbreviations": {
+    "oxlint": "unicorn/prevent-abbreviations",
+    "reason": "Not in oxlint, and not worth a JS plugin: it flags common names such as params and dir, and many come from library APIs.",
+    "replacement": null
+  },
+  "unicorn/template-indent": {
+    "oxlint": "unicorn/template-indent",
+    "reason": "Unsupported stylistic rule; formatter territory.",
+    "replacement": null
+  },
+  "vitest/no-conditional-expect": {
+    "oxlint": "vitest/no-conditional-expect",
+    "reason": "It flags valid test code: TS narrowing such as `if (result.success)` after an asserted success, and branches in table-driven tests.",
+    "replacement": null
+  },
+  "vitest/no-mocks-import": {
+    "oxlint": "vitest/no-mocks-import",
+    "reason": "It only checks imports from __mocks__ folders; tests that mock with vi.mock factories have none.",
+    "replacement": null
+  }
+}

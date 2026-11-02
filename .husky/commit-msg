@@ -1,0 +1,3 @@
+echo Checking the commit message against conventional commits
+
+pnpm exec commitlint --edit "$1"

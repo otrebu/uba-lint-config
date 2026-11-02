@@ -1,0 +1,11 @@
+node_modules
+dist
+tmp
+*.tgz
+*.log
+.env*
+.DS_Store
+.idea/
+.vscode/
+.claude/
+CLAUDE.local.md

@@ -1,0 +1,4 @@
+echo Checking lint and format
+
+pnpm run lint
+pnpm run format:check
