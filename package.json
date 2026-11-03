@@ -1,6 +1,6 @@
 {
   "name": "@u-b/lint-config",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Shared oxlint and oxfmt configuration for TypeScript, React and Node projects",
   "keywords": [
     "lint-config",
