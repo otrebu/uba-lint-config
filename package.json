@@ -1,5 +1,5 @@
 {
-  "name": "uba-lint-config",
+  "name": "@u-b/lint-config",
   "version": "0.0.0-development",
   "description": "Shared oxlint and oxfmt configuration for TypeScript, React and Node projects",
   "keywords": [

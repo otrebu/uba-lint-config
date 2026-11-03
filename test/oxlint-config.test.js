@@ -1,3 +1,4 @@
+import { generateOxlintConfig } from "@u-b/lint-config/oxlint";
 // Why: JS-plugin rules do not appear in --print-config; only real lint runs verify them.
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
@@ -5,7 +6,6 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { before, describe, it } from "node:test";
 import { fileURLToPath } from "node:url";
-import { generateOxlintConfig } from "uba-lint-config/oxlint";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const oxlintBin = path.join(root, "node_modules/.bin/oxlint");

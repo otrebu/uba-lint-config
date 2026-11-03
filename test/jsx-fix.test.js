@@ -12,7 +12,7 @@ const config = {
     {
       name: "uba",
       specifier: fileURLToPath(
-        import.meta.resolve("uba-lint-config/oxlint-plugin"),
+        import.meta.resolve("@u-b/lint-config/oxlint-plugin"),
       ),
     },
   ],

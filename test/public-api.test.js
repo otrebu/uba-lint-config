@@ -1,13 +1,13 @@
-import assert from "node:assert/strict";
-import { describe, it } from "node:test";
-import * as config from "uba-lint-config";
-import oxfmtConfig, { generateOxfmtConfig } from "uba-lint-config/oxfmt";
+import * as config from "@u-b/lint-config";
+import oxfmtConfig, { generateOxfmtConfig } from "@u-b/lint-config/oxfmt";
 import oxlintConfig, {
   generateOxlintConfig,
   generateOxlintConfigByFeatures,
-} from "uba-lint-config/oxlint";
-import ubaPlugin from "uba-lint-config/oxlint-plugin";
-import packageManifest from "uba-lint-config/package.json" with { type: "json" };
+} from "@u-b/lint-config/oxlint";
+import ubaPlugin from "@u-b/lint-config/oxlint-plugin";
+import packageManifest from "@u-b/lint-config/package.json" with { type: "json" };
+import assert from "node:assert/strict";
+import { describe, it } from "node:test";
 
 describe("public package API", () => {
   it("exposes the same generators and defaults from the root and subpaths", () => {
@@ -19,7 +19,7 @@ describe("public package API", () => {
     assert.equal(config.generateOxfmtConfig, generateOxfmtConfig);
     assert.equal(config.ubaOxlintConfig, oxlintConfig);
     assert.equal(config.ubaOxfmtConfig, oxfmtConfig);
-    assert.equal(packageManifest.name, "uba-lint-config");
+    assert.equal(packageManifest.name, "@u-b/lint-config");
   });
 
   for (const appType of ["fullstack", "backendOnly"]) {

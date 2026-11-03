@@ -1,6 +1,6 @@
 # Agent conventions
 
-Conventions for code linted with uba-lint-config: the ones no lint rule checks, and how to respond to the rules that do. They apply to this package's own code too.
+Conventions for code linted with @u-b/lint-config: the ones no lint rule checks, and how to respond to the rules that do. They apply to this package's own code too.
 
 If you install this package, copy the list below into your repo's `AGENTS.md` or `CLAUDE.md`.
 

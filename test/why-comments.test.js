@@ -1,7 +1,7 @@
+import { generateOxlintConfig } from "@u-b/lint-config/oxlint";
 import assert from "node:assert/strict";
 import { it } from "node:test";
 import { fileURLToPath } from "node:url";
-import { generateOxlintConfig } from "uba-lint-config/oxlint";
 
 import { runOxlint } from "./support/oxlint.js";
 
@@ -13,7 +13,7 @@ const config = {
     {
       name: "uba",
       specifier: fileURLToPath(
-        import.meta.resolve("uba-lint-config/oxlint-plugin"),
+        import.meta.resolve("@u-b/lint-config/oxlint-plugin"),
       ),
     },
   ],

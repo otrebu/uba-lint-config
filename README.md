@@ -1,11 +1,11 @@
-# uba-lint-config
+# @u-b/lint-config
 
 Shared [oxlint](https://oxc.rs/docs/guide/usage/linter.html) and [oxfmt](https://oxc.rs/docs/guide/usage/formatter.html) configuration for TypeScript, React and Node projects.
 
 ## Install
 
 ```bash
-pnpm add -D uba-lint-config oxlint oxfmt oxlint-tsgolint
+pnpm add -D @u-b/lint-config oxlint oxfmt oxlint-tsgolint
 ```
 
 `oxlint-tsgolint` runs the type-aware rules. It brings its own TypeScript 7 and needs no `typescript` package.
@@ -17,8 +17,8 @@ The package needs Node 22.13+ or 24+.
 Create `oxlint.config.ts` at the repo root:
 
 ```ts
+import { generateOxlintConfig } from "@u-b/lint-config/oxlint";
 import { defineConfig } from "oxlint";
-import { generateOxlintConfig } from "uba-lint-config/oxlint";
 
 const base = generateOxlintConfig({ appType: "fullstack" });
 
@@ -139,8 +139,8 @@ oxlint also loads config files it finds in subfolders, and such a file can turn 
 Create `oxfmt.config.ts`:
 
 ```ts
+import { generateOxfmtConfig } from "@u-b/lint-config/oxfmt";
 import { defineConfig } from "oxfmt";
-import { generateOxfmtConfig } from "uba-lint-config/oxfmt";
 
 export default defineConfig(generateOxfmtConfig({ appType: "fullstack" }));
 ```

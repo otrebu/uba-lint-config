@@ -1,7 +1,7 @@
+import { generateOxlintConfig } from "@u-b/lint-config/oxlint";
 import assert from "node:assert/strict";
 import path from "node:path";
 import { it } from "node:test";
-import { generateOxlintConfig } from "uba-lint-config/oxlint";
 
 import { runOxlint } from "./support/oxlint.js";
 
