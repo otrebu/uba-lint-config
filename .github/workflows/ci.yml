@@ -45,9 +45,9 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     needs: check
-    # Why: releases need a manual start after the checks pass.
-    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
-    # Why: publishing needs a reviewer, configured on this environment in GitHub.
+    # Why: main publishes after the checks pass, and commit types decide the version; a manual run retries a failed release.
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    # Why: npm trusts only this environment, and GitHub lets only main deploy to it.
     environment: npm
     concurrency:
       group: release
