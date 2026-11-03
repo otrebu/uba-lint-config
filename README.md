@@ -2,6 +2,8 @@
 
 Shared [oxlint](https://oxc.rs/docs/guide/usage/linter.html) and [oxfmt](https://oxc.rs/docs/guide/usage/formatter.html) configuration for TypeScript, React and Node projects.
 
+This package was first published as `uba-lint-config`. That name is deprecated: install `@u-b/lint-config` instead.
+
 ## Install
 
 ```bash
