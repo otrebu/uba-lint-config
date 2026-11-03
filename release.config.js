@@ -18,7 +18,6 @@ const releaseConfig = {
           { release: "minor", type: "feat" },
           { release: "patch", type: "fix" },
           { release: "patch", scope: "README", type: "docs" },
-          { release: "patch", type: "chore" },
         ],
       },
     ],
