@@ -29,9 +29,20 @@ function runOxlint(t, files, config, args = []) {
     path.join(directory, "oxlint.config.json"),
     JSON.stringify(config),
   );
+  // Why: oxlint picks the github or agent format from the environment, and the github format drops JS plugin error text.
+  const format = args.some((arg) => arg === "-f" || arg.startsWith("--format"))
+    ? []
+    : ["--format=default"];
   const result = spawnSync(
     oxlintBin,
-    ["-c", "oxlint.config.json", "--disable-nested-config", ...args, "."],
+    [
+      "-c",
+      "oxlint.config.json",
+      "--disable-nested-config",
+      ...format,
+      ...args,
+      ".",
+    ],
     {
       cwd: directory,
       encoding: "utf8",
