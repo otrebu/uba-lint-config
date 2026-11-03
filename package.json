@@ -25,15 +25,29 @@
     "THIRD_PARTY_NOTICES",
     "index.js",
     "oxlint",
-    "oxfmt"
+    "oxfmt",
+    "types"
   ],
   "type": "module",
   "main": "index.js",
+  "types": "./types/index.d.ts",
   "exports": {
-    ".": "./index.js",
-    "./oxlint": "./oxlint/index.js",
-    "./oxfmt": "./oxfmt/index.js",
-    "./oxlint-plugin": "./oxlint/plugin/index.js",
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./index.js"
+    },
+    "./oxlint": {
+      "types": "./types/oxlint/index.d.ts",
+      "default": "./oxlint/index.js"
+    },
+    "./oxfmt": {
+      "types": "./types/oxfmt/index.d.ts",
+      "default": "./oxfmt/index.js"
+    },
+    "./oxlint-plugin": {
+      "types": "./types/oxlint/plugin/index.d.ts",
+      "default": "./oxlint/plugin/index.js"
+    },
     "./package.json": "./package.json"
   },
   "publishConfig": {
@@ -46,6 +60,7 @@
     "format:check": "oxfmt --check",
     "lint": "oxlint --disable-nested-config",
     "lint:fix": "oxlint --disable-nested-config --fix",
+    "prepack": "rm -rf types && tsc -p tsconfig.types.json",
     "prepare": "husky",
     "test": "node --test 'test/**/*.test.js'"
   },
@@ -70,7 +85,8 @@
     "oxfmt": "0.74.0",
     "oxlint": "1.89.0",
     "oxlint-tsgolint": "7.0.2004",
-    "semantic-release": "^25.0.3"
+    "semantic-release": "^25.0.3",
+    "typescript": "6.0.3"
   },
   "peerDependencies": {
     "eslint-plugin-storybook": "^10.2.8",
